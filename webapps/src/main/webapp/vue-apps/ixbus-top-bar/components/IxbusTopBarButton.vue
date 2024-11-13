@@ -23,7 +23,7 @@ export default {
     count: 0
   }),
   created() {
-    this.$ixbusService.getCurrentUserFoldersCount()
+    this.$ixbusService.getCurrentUserActionsCount()
       .then((data) => {
         this.count = data?.count || 0;
       });

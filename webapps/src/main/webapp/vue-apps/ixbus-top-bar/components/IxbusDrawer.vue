@@ -7,6 +7,24 @@
     <template slot="title">
       {{ $t('IxbusPortlet.drawer.title') }}
     </template>
+    <template #titleIcons>
+      <div class="full-height d-flex align-center">
+        <v-btn
+          :title="$t('ixbus.drawer.createFolder')"
+          color="primary"
+          elevation="0"
+          small
+          @click="createFolder">
+          <v-icon
+            color="while"
+            class="me-2"
+            size="18">
+            fa-plus
+          </v-icon>
+          {{ $t('ixbus.drawer.createFolder') }}
+        </v-btn>
+      </div>
+    </template>
     <template slot="content">
       <div class="d-flex overflow-hidden full-width">
         <v-tabs
@@ -52,7 +70,8 @@
 export default {
   data: () => ({
     actionsCount: 0,
-    foldersCount: 0
+    foldersCount: 0,
+    createUrl: '',
   }),
   created() {
     this.$root.$on('open-ixbus-drawer', () => {
@@ -61,12 +80,25 @@ export default {
   },
   methods: {
     openDrawer() {
-      this.$ixbusService.getCurrentUserFoldersCount()
+      this.$ixbusService.getCurrentUserActionsCount()
         .then((data) => {
           this.actionsCount = data?.count || 0;
         });
+
+      this.$ixbusService.getCurrentUserFoldersCount()
+        .then((data) => {
+          this.foldersCount = data?.count || 0;
+        });
+
+      this.$ixbusService.getSettings()
+        .then((settings) => {
+          this.createUrl = settings?.serverUrl || '';
+        });
       this.$refs.ixbusDrawer.open();
     },
+    createFolder() {
+      window.open(this.createUrl,'_blank');
+    }
   }
 };
 </script>

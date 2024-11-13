@@ -23,8 +23,9 @@ public class IxBusRestService implements ResourceContainer {
 
   @GET
   @RolesAllowed("users")
+  @Path("/folders")
   @Produces(MediaType.APPLICATION_JSON)
-  @Operation(summary = "Get caldav user setting", method = "GET")
+  @Operation(summary = "Get current user folders", method = "GET")
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserFolders() {
@@ -34,14 +35,50 @@ public class IxBusRestService implements ResourceContainer {
 
   @GET
   @RolesAllowed("users")
-  @Path("/count")
+  @Path("/folders/count")
   @Produces(MediaType.APPLICATION_JSON)
-  @Operation(summary = "Get caldav user setting", method = "GET")
+  @Operation(summary = "Get current user folders count", method = "GET")
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserFoldersCount() {
     int count = ixbusConnectorService.getCurrentUserFoldersCount();
 
     return Response.ok("{\"count\":"+count+"}").build();
+  }
+
+  @GET
+  @RolesAllowed("users")
+  @Path("/actions")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Operation(summary = "Get current user actions", method = "GET")
+  @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+      @ApiResponse(responseCode = "500", description = "Internal server error") })
+  public Response getCurrentUserActions() {
+    ixbusConnectorService.getCurrentUserFolders();
+    return Response.ok().build();
+  }
+
+  @GET
+  @RolesAllowed("users")
+  @Path("/actions/count")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Operation(summary = "Get current user actions count", method = "GET")
+  @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+      @ApiResponse(responseCode = "500", description = "Internal server error") })
+  public Response getCurrentUserActionsCount() {
+    int count = ixbusConnectorService.getCurrentUserActionsCount();
+
+    return Response.ok("{\"count\":"+count+"}").build();
+  }
+
+  @GET
+  @RolesAllowed("users")
+  @Path("/settings")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Operation(summary = "Get ixbus settings", method = "GET")
+  @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+      @ApiResponse(responseCode = "500", description = "Internal server error") })
+  public Response getSettings() {
+    return Response.ok(ixbusConnectorService.getSettings()).build();
   }
 }

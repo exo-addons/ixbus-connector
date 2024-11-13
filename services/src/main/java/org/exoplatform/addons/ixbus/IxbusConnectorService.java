@@ -1,9 +1,9 @@
 package org.exoplatform.addons.ixbus;
 
+import org.exoplatform.addons.ixbus.entity.SettingsEntity;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +17,11 @@ public class IxbusConnectorService {
 
 
   public IxbusConnectorService(InitParams params) {
-    if (params.getValueParam("exo.addons.ixbus.api.url") != null) {
-      this.serverUrl = params.getValueParam("exo.addons.ixbus.api.url").getValue();
+    if (params.getValueParam("serverUrl") != null) {
+      this.serverUrl = params.getValueParam("serverUrl").getValue();
     }
-    if (params.getValueParam("exo.addons.ixbus.api.key") != null) {
-      this.apiKey = params.getValueParam("exo.addons.ixbus.api.key").getValue();
+    if (params.getValueParam("apiKey") != null) {
+      this.apiKey = params.getValueParam("apiKey").getValue();
     }
     if (serverUrl.isEmpty() || apiKey.isEmpty()) {
       LOG.error("IxbusConnector service is not correctly configured. Check serverUrl and apiKey.");
@@ -40,10 +40,19 @@ public class IxbusConnectorService {
     return 3;
   }
 
+  public int getCurrentUserActionsCount() {
+    return 2;
+  }
+
   public List<String> getCurrentUserFolders() {
     return new ArrayList<>();
   }
 
+  public List<String> getCurrentUserActions() {
+    return new ArrayList<>();
+  }
 
-
+  public SettingsEntity getSettings() {
+    return new SettingsEntity(serverUrl);
+  }
 }

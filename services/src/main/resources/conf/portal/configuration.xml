@@ -22,11 +22,11 @@
     <init-params>
       <value-param>
         <name>serverUrl</name>
-        <value>${exo.addons.ixbus.api.url}</value>
+        <value>${exo.ixbus.api.url}</value>
       </value-param>
       <value-param>
         <name>apiKey</name>
-        <value>${exo.addons.ixbus.api.key}</value>
+        <value>${exo.ixbus.api.key}</value>
       </value-param>
     </init-params>
   </component>
