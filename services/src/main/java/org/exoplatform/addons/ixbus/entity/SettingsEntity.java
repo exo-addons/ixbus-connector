@@ -1,17 +1,13 @@
 package org.exoplatform.addons.ixbus.entity;
 
 public class SettingsEntity {
-  public String getServerUrl() {
-    return serverUrl;
+  public String getCreateUrl() {
+    return createUrl;
   }
 
-  public void setServerUrl(String serverUrl) {
-    this.serverUrl = serverUrl;
+  public void setCreateUrl(String createUrl) {
+    this.createUrl = createUrl;
   }
 
-  public SettingsEntity(String serverUrl) {
-    this.serverUrl = serverUrl;
-  }
-
-  private String serverUrl;
+  private String createUrl;
 }

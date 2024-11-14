@@ -123,7 +123,7 @@ export default {
 
       this.$ixbusService.getSettings()
         .then((settings) => {
-          this.createUrl = settings?.serverUrl || '';
+          this.createUrl = settings?.createUrl || '';
         });
 
 

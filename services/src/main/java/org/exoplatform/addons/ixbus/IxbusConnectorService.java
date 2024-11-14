@@ -54,7 +54,9 @@ public class IxbusConnectorService {
   }
 
   public SettingsEntity getSettings() {
-    return new SettingsEntity(serverUrl);
+    SettingsEntity settings = new SettingsEntity();
+    settings.setCreateUrl(serverUrl+"/parapheur/preparer");
+    return settings;
   }
 
   private List<DocumentEntity> generateContent(int size) {
