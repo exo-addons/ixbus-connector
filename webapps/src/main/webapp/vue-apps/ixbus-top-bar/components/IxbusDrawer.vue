@@ -37,8 +37,7 @@
           class="flex-grow-1 flex-shrink-1"
           v-model="tab">
           <v-tab
-            key="actionsTab"
-            href="#actionsTab"
+            value="actionsTab"
             v-show="this.actionsCount > 0">
             {{ $t('ixbus.drawer.tab.actions') }}
             <v-avatar
@@ -53,8 +52,7 @@
             </v-avatar>
           </v-tab>
           <v-tab
-            key="foldersTab"
-            href="#foldersTab"
+            value="foldersTab"
             v-show="this.foldersCount > 0">
             {{ $t('ixbus.drawer.tab.myfolders') }}
             <v-avatar
@@ -72,15 +70,15 @@
       </div>
       <v-tabs-items
         v-model="tab">
-        <v-tab-item value="actionsTab">
-          <v-list v-if="this.actions?.length" class="ma-4">
+        <v-tab-item key="actionsTab">
+          <v-list class="ma-4">
             <ixbus-document v-for="d in actions"
               :key="d.id"
               :document="d"/>
           </v-list>
         </v-tab-item>
-        <v-tab-item class="ma-4" value="foldersTab">
-          <v-list v-if="this.folders?.length">
+        <v-tab-item class="ma-4" key="foldersTab">
+          <v-list>
             <ixbus-document v-for="d in folders"
               :key="d.id"
               :document="d"/>
@@ -98,7 +96,7 @@ export default {
     createUrl: '',
     folders: null,
     actions:null,
-    tab: '',
+    tab: 'actionsTab',
     loading: true,
   }),
   created() {
