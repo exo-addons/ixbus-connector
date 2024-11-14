@@ -26,14 +26,20 @@
       </div>
     </template>
     <template slot="content">
+      <v-progress-circular
+        v-if="loading"
+        :size="50"
+        class="loader mt-8 d-block ma-auto"
+        color="primary"
+        indeterminate />
       <div class="d-flex overflow-hidden full-width">
         <v-tabs
           class="flex-grow-1 flex-shrink-1"
           v-model="tab">
           <v-tab
-            value="actions"
-            v-show="this.actionsCount > 0"
-            href="#actions">
+            key="actionsTab"
+            href="#actionsTab"
+            v-show="this.actionsCount > 0">
             {{ $t('ixbus.drawer.tab.actions') }}
             <v-avatar
               v-show="this.actionsCount > 0"
@@ -47,9 +53,9 @@
             </v-avatar>
           </v-tab>
           <v-tab
-            value="folders"
-            v-show="this.foldersCount > 0"
-            href="#folders">
+            key="foldersTab"
+            href="#foldersTab"
+            v-show="this.foldersCount > 0">
             {{ $t('ixbus.drawer.tab.myfolders') }}
             <v-avatar
               v-show="this.foldersCount > 0"
@@ -66,15 +72,15 @@
       </div>
       <v-tabs-items
         v-model="tab">
-        <v-tab-item value="actions">
-          <v-list v-if="actions?.length" class="ma-4">
+        <v-tab-item value="actionsTab">
+          <v-list v-if="this.actions?.length" class="ma-4">
             <ixbus-document v-for="d in actions"
               :key="d.id"
               :document="d"/>
           </v-list>
         </v-tab-item>
-        <v-tab-item value="folders" class="ma-4">
-          <v-list v-if="folders?.length">
+        <v-tab-item class="ma-4" value="foldersTab">
+          <v-list v-if="this.folders?.length">
             <ixbus-document v-for="d in folders"
               :key="d.id"
               :document="d"/>
@@ -92,7 +98,8 @@ export default {
     createUrl: '',
     folders: null,
     actions:null,
-    tab: 'actions',
+    tab: '',
+    loading: true,
   }),
   created() {
     this.$root.$on('open-ixbus-drawer', () => {
@@ -101,24 +108,19 @@ export default {
   },
   methods: {
     openDrawer() {
-      this.$ixbusService.getCurrentUserActionsCount()
-        .then((data) => {
-          this.actionsCount = data?.count || 0;
-        });
-
       this.$ixbusService.getCurrentUserActions()
         .then((data) => {
           this.actions = data;
-        });
-
-      this.$ixbusService.getCurrentUserFoldersCount()
-        .then((data) => {
-          this.foldersCount = data?.count || 0;
+          this.actionsCount = this.actions.length;
+          this.tab='actionsTab';
+          this.loading=false;
         });
 
       this.$ixbusService.getCurrentUserFolders()
         .then((data) => {
           this.folders = data;
+          this.foldersCount = this.folders.length;
+          this.loading=false;
         });
 
       this.$ixbusService.getSettings()

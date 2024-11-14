@@ -8,7 +8,7 @@
           {{ this.document?.name }}
         </div>
         <div class="flex-grow-1 text-right" style="flex-basis:0">
-          <v-chip color="primary" style="text-transform:capitalize">
+          <v-chip color="primary" style="text-transform:capitalize" v-if="this.document?.action">
             {{ this.document?.action }}
           </v-chip>
         </div>

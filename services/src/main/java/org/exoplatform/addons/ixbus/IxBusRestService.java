@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.exoplatform.services.rest.resource.ResourceContainer;
+import org.exoplatform.services.security.ConversationState;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
@@ -29,7 +30,8 @@ public class IxBusRestService implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserFolders() {
-    return Response.ok(ixbusConnectorService.getCurrentUserFolders()).build();
+    String currentUser = ConversationState.getCurrent().getIdentity().getUserId();
+    return Response.ok(ixbusConnectorService.getUserFolders(currentUser)).build();
   }
 
   @GET
@@ -40,7 +42,8 @@ public class IxBusRestService implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserFoldersCount() {
-    int count = ixbusConnectorService.getCurrentUserFoldersCount();
+    String currentUser = ConversationState.getCurrent().getIdentity().getUserId();
+    int count = ixbusConnectorService.getUserFoldersCount(currentUser);
 
     return Response.ok("{\"count\":"+count+"}").build();
   }
@@ -53,7 +56,8 @@ public class IxBusRestService implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserActions() {
-    return Response.ok(ixbusConnectorService.getCurrentUserActions()).build();
+    String currentUser = ConversationState.getCurrent().getIdentity().getUserId();
+    return Response.ok(ixbusConnectorService.getUserActions(currentUser)).build();
   }
 
   @GET
@@ -64,8 +68,8 @@ public class IxBusRestService implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserActionsCount() {
-    int count = ixbusConnectorService.getCurrentUserActionsCount();
-
+    String currentUser = ConversationState.getCurrent().getIdentity().getUserId();
+    int count = ixbusConnectorService.getUserActionsCount(currentUser);
     return Response.ok("{\"count\":"+count+"}").build();
   }
 
