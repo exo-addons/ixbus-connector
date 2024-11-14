@@ -1,0 +1,75 @@
+package org.exoplatform.addons.ixbus.entity;
+
+public class DocumentEntity {
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getAction() {
+    return action;
+  }
+
+  public void setAction(String action) {
+    this.action = action;
+  }
+
+  public String getCreationDate() {
+    return creationDate;
+  }
+
+  public void setCreationDate(String creationDate) {
+    this.creationDate = creationDate;
+  }
+
+  public String getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(String dueDate) {
+    this.dueDate = dueDate;
+  }
+
+  public String getReferentFirstName() {
+    return referentFirstName;
+  }
+
+  public void setReferentFirstName(String referentFirstName) {
+    this.referentFirstName = referentFirstName;
+  }
+
+  public String getReferentLastName() {
+    return referentLastName;
+  }
+
+  public void setReferentLastName(String referentLastName) {
+    this.referentLastName = referentLastName;
+  }
+
+  public String getNature() {
+    return nature;
+  }
+
+  public void setNature(String nature) {
+    this.nature = nature;
+  }
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+  private String name;
+  private String action;
+  private String creationDate;
+  private String dueDate;
+  private String referentFirstName;
+  private String referentLastName;
+  private String nature;
+  private String id;
+}

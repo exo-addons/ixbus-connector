@@ -28,9 +28,10 @@
     <template slot="content">
       <div class="d-flex overflow-hidden full-width">
         <v-tabs
-          class="flex-grow-1 flex-shrink-1">
+          class="flex-grow-1 flex-shrink-1"
+          v-model="tab">
           <v-tab
-            tab-value="actions"
+            value="actions"
             v-show="this.actionsCount > 0"
             href="#actions">
             {{ $t('ixbus.drawer.tab.actions') }}
@@ -46,9 +47,9 @@
             </v-avatar>
           </v-tab>
           <v-tab
-            tab-value="myFolders"
+            value="folders"
             v-show="this.foldersCount > 0"
-            href="#myFolders">
+            href="#folders">
             {{ $t('ixbus.drawer.tab.myfolders') }}
             <v-avatar
               v-show="this.foldersCount > 0"
@@ -63,6 +64,23 @@
           </v-tab>
         </v-tabs>
       </div>
+      <v-tabs-items
+        v-model="tab">
+        <v-tab-item value="actions">
+          <v-list v-if="actions?.length" class="ma-4">
+            <ixbus-document v-for="d in actions"
+              :key="d.id"
+              :document="d"/>
+          </v-list>
+        </v-tab-item>
+        <v-tab-item value="folders" class="ma-4">
+          <v-list v-if="folders?.length">
+            <ixbus-document v-for="d in folders"
+              :key="d.id"
+              :document="d"/>
+          </v-list>
+        </v-tab-item>
+      </v-tabs-items>
     </template>
   </exo-drawer>
 </template>
@@ -72,6 +90,9 @@ export default {
     actionsCount: 0,
     foldersCount: 0,
     createUrl: '',
+    folders: null,
+    actions:null,
+    tab: 'actions',
   }),
   created() {
     this.$root.$on('open-ixbus-drawer', () => {
@@ -85,15 +106,27 @@ export default {
           this.actionsCount = data?.count || 0;
         });
 
+      this.$ixbusService.getCurrentUserActions()
+        .then((data) => {
+          this.actions = data;
+        });
+
       this.$ixbusService.getCurrentUserFoldersCount()
         .then((data) => {
           this.foldersCount = data?.count || 0;
+        });
+
+      this.$ixbusService.getCurrentUserFolders()
+        .then((data) => {
+          this.folders = data;
         });
 
       this.$ixbusService.getSettings()
         .then((settings) => {
           this.createUrl = settings?.serverUrl || '';
         });
+
+
       this.$refs.ixbusDrawer.open();
     },
     createFolder() {

@@ -29,8 +29,7 @@ public class IxBusRestService implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserFolders() {
-    ixbusConnectorService.getCurrentUserFolders();
-    return Response.ok().build();
+    return Response.ok(ixbusConnectorService.getCurrentUserFolders()).build();
   }
 
   @GET
@@ -54,8 +53,7 @@ public class IxBusRestService implements ResourceContainer {
   @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
       @ApiResponse(responseCode = "500", description = "Internal server error") })
   public Response getCurrentUserActions() {
-    ixbusConnectorService.getCurrentUserFolders();
-    return Response.ok().build();
+    return Response.ok(ixbusConnectorService.getCurrentUserActions()).build();
   }
 
   @GET

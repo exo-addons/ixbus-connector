@@ -31,6 +31,18 @@ export function getCurrentUserFoldersCount() {
   });
 }
 
+export function getCurrentUserFolders() {
+  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/ixbus/folders`, {
+    method: 'GET',
+    credentials: 'include'
+  }).then((resp) => {
+    if (resp?.ok) {
+          return resp.json();
+    } else {
+      throw new Error('Error when getting folders');
+    }
+  });
+}
 
 export function getCurrentUserActionsCount() {
   return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/ixbus/actions/count`, {
@@ -41,6 +53,19 @@ export function getCurrentUserActionsCount() {
           return resp.json();
     } else {
       throw new Error('Error when getting actions count');
+    }
+  });
+}
+
+export function getCurrentUserActions() {
+  return fetch(`${eXo.env.portal.context}/${eXo.env.portal.rest}/ixbus/actions`, {
+    method: 'GET',
+    credentials: 'include'
+  }).then((resp) => {
+    if (resp?.ok) {
+          return resp.json();
+    } else {
+      throw new Error('Error when getting actions');
     }
   });
 }

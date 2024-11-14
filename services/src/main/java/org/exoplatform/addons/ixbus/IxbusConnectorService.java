@@ -1,5 +1,6 @@
 package org.exoplatform.addons.ixbus;
 
+import org.exoplatform.addons.ixbus.entity.DocumentEntity;
 import org.exoplatform.addons.ixbus.entity.SettingsEntity;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.services.log.ExoLogger;
@@ -44,15 +45,32 @@ public class IxbusConnectorService {
     return 2;
   }
 
-  public List<String> getCurrentUserFolders() {
-    return new ArrayList<>();
+  public List<DocumentEntity> getCurrentUserFolders() {
+    return generateContent(3);
   }
 
-  public List<String> getCurrentUserActions() {
-    return new ArrayList<>();
+  public List<DocumentEntity> getCurrentUserActions() {
+    return generateContent(2);
   }
 
   public SettingsEntity getSettings() {
     return new SettingsEntity(serverUrl);
+  }
+
+  private List<DocumentEntity> generateContent(int size) {
+    List<DocumentEntity> results = new ArrayList<>();
+    for(int i = 0 ; i<size; i++) {
+      DocumentEntity document = new DocumentEntity();
+      document.setId("C51A70FDAF6FF186624D991B49E4CC76");
+      document.setName("Test Document Name which can be quite long");
+      document.setAction("viser");
+      document.setCreationDate("2022-09-13T12:20:59");
+      document.setDueDate("2022-10-13T12:20:59");
+      document.setReferentFirstName("Morgan");
+      document.setReferentLastName("Argondicco");
+      document.setNature("Annonce présidentielle");
+      results.add(document);
+    }
+    return results;
   }
 }
