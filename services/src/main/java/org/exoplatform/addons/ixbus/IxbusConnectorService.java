@@ -368,6 +368,7 @@ public class IxbusConnectorService {
       document.setAction(folder.getString("actionAttendue"));
     }
     document.setCreationDate(folder.getString("dateCreation"));
+    document.setStatus(folder.getString("statut"));
     if (folder.has("dateLimite") && !folder.isNull("dateLimite")) {
       document.setDueDate(folder.getString("dateLimite"));
     }

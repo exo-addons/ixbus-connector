@@ -66,6 +66,16 @@ public class DocumentEntity {
   }
   private String name;
   private String action;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  private String status;
   private String creationDate;
   private String dueDate;
   private String referentFirstName;
