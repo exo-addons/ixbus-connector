@@ -246,7 +246,7 @@ public class IxbusConnectorService {
         if (jsonResponse.has("payload")) {
           JSONArray folders=jsonResponse.getJSONArray("payload");
           folders.forEach(folder -> {
-            if (!((JSONObject)folder).getString("statut").equals("Annule")) {
+            if (!((JSONObject)folder).getString("statut").equals("Annule") && !((JSONObject)folder).getString("statut").equals("Cloture")) {
               DocumentEntity document =toDocumentEntity((JSONObject) folder);
               document.setTargetUrl(serverUrl+"/parapheur/suivi");
               result.addFirst(document);
