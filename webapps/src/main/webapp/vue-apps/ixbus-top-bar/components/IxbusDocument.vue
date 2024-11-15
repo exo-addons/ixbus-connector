@@ -2,7 +2,8 @@
   <v-card
     flat
     outlined
-    hover class="pa-2 mb-2">
+    hover class="pa-2 mb-2"
+    @click="openTargetUrl">
       <div class="d-flex flex-wrap">
         <div class="flex-grow-1 font-weight-bold text-truncate-2" style="flex-basis:0">
           {{ this.document?.name }}
@@ -59,6 +60,13 @@ export default {
     action() {
       return this.document?.action ? this.document.action : this.document?.status
     }
+  },
+  methods: {
+    openTargetUrl() {
+      if (this.document?.targetUrl) {
+        window.open(this.document.targetUrl,'_blank');
+      }
+    },
   }
 }
 </script>

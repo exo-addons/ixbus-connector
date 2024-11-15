@@ -247,7 +247,9 @@ public class IxbusConnectorService {
           JSONArray folders=jsonResponse.getJSONArray("payload");
           folders.forEach(folder -> {
             if (!((JSONObject)folder).getString("statut").equals("Annule")) {
-              result.addFirst(toDocumentEntity((JSONObject) folder));
+              DocumentEntity document =toDocumentEntity((JSONObject) folder);
+              document.setTargetUrl(serverUrl+"/parapheur/suivi");
+              result.addFirst(document);
             }
           });
           LOG.debug("Found {} folders that {} own", result.size(), username);
@@ -332,7 +334,11 @@ public class IxbusConnectorService {
         JSONObject jsonResponse = doGet(serverUrl + "/api/parapheur/v1/dossier?idUtilisateur=" + userIdentifier, currentSessionToken);
         if (jsonResponse.has("payload")) {
           JSONArray folders=jsonResponse.getJSONArray("payload");
-          folders.forEach(folder -> result.addFirst(toDocumentEntity((JSONObject) folder)));
+          folders.forEach(folder -> {
+            DocumentEntity document =toDocumentEntity((JSONObject) folder);
+            document.setTargetUrl(serverUrl+"/parapheur/signer");
+            result.addFirst(document);
+          });
           LOG.debug("Found {} folders that {} must do", result.size(), username);
           return result;
         }

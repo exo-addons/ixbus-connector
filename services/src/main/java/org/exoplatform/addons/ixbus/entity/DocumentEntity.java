@@ -75,11 +75,20 @@ public class DocumentEntity {
     this.status = status;
   }
 
+  public String getTargetUrl() {
+    return targetUrl;
+  }
+
+  public void setTargetUrl(String targetUrl) {
+    this.targetUrl = targetUrl;
+  }
+
   private String status;
   private String creationDate;
   private String dueDate;
   private String referentFirstName;
   private String referentLastName;
   private String nature;
+  private String targetUrl;
   private String id;
 }
