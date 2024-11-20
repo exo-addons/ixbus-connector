@@ -34,6 +34,8 @@ const config = {
   ],
   entry: {
     ixbusTopBar: './src/main/webapp/vue-apps/ixbus-top-bar/main.js',
+    ixbusNotification: './src/main/webapp/vue-apps/ixbus-notifications/main.js',
+
   },
   output: {
     path: path.join(__dirname, 'target/ixbus/'),

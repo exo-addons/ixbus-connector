@@ -91,4 +91,31 @@ public class DocumentEntity {
   private String nature;
   private String targetUrl;
   private String id;
+
+  public StepEntity getStepEnAttente() {
+    return stepEnAttente;
+  }
+
+  public void setStepEnAttente(StepEntity stepEnAttente) {
+    this.stepEnAttente = stepEnAttente;
+  }
+
+  private StepEntity stepEnAttente;
+
+  @Override
+  public String toString() {
+    return "DocumentEntity{" +
+        "name='" + name + '\'' +
+        ", action='" + action + '\'' +
+        ", status='" + status + '\'' +
+        ", creationDate='" + creationDate + '\'' +
+        ", dueDate='" + dueDate + '\'' +
+        ", referentFirstName='" + referentFirstName + '\'' +
+        ", referentLastName='" + referentLastName + '\'' +
+        ", nature='" + nature + '\'' +
+        ", targetUrl='" + targetUrl + '\'' +
+        ", id='" + id + '\'' +
+        ", stepEnAttente=" + stepEnAttente +
+        '}';
+  }
 }

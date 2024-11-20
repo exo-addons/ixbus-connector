@@ -2,6 +2,7 @@ package org.exoplatform.addons.ixbus;
 
 import org.apache.ecs.Document;
 import org.apache.ecs.wml.Do;
+import org.apache.ecs.wml.Template;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpStatus;
 import org.apache.http.ProtocolException;
@@ -19,8 +20,10 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.client.HttpClient;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.jetty.util.ajax.JSON;
 import org.exoplatform.addons.ixbus.entity.DocumentEntity;
 import org.exoplatform.addons.ixbus.entity.SettingsEntity;
+import org.exoplatform.addons.ixbus.entity.StepEntity;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
@@ -29,8 +32,12 @@ import org.exoplatform.services.organization.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.print.Doc;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +109,7 @@ public class IxbusConnectorService {
           LOG.debug("Session Token created : {}, at timestamp {}", currentSessionToken, timeStampCreationSessionToken);
         }
       } catch (HttpResponseException e) {
-        LOG.error("remote_service={} operation={} parameters=\"apiKey:{}, status=ko "
+        LOG.error("remote_service={} operation={} parameters=\"apiKey:{}\", status=ko "
                       + "duration_ms={} error_msg=\"{}, status : {} \"",
                   IXBUS_SERVICE_API,
                   "createSessionToken",
@@ -155,7 +162,7 @@ public class IxbusConnectorService {
             timeStampCreationSessionToken = 0;
             return getUserIdentifier(username, false);
           } else {
-            LOG.error("remote_service={} operation={} parameters=\"username:{}, status=ko "
+            LOG.error("remote_service={} operation={} parameters=\"username:{}\", status=ko "
                           + "duration_ms={} error_msg=\"{}, status : {} \"",
                       IXBUS_SERVICE_API,
                       "getUserIdentifier",
@@ -171,6 +178,45 @@ public class IxbusConnectorService {
 
     }
     return userIdentifier;
+  }
+
+  public Map<String,String> getAllUsers() {
+    return getAllUsers(true);
+  }
+
+  private Map<String,String> getAllUsers(boolean canReplay) {
+    Map<String,String> results = new HashMap<>();
+    createSessionToken();
+    long startTime = System.currentTimeMillis();
+    try {
+      JSONObject jsonResponse = doGet(serverUrl + "/api/parapheur/v1/utilisateur", currentSessionToken);
+      if (jsonResponse.has("payload") && !jsonResponse.getJSONArray("payload").isEmpty()) {
+        JSONArray users = jsonResponse.getJSONArray("payload");
+        for (int i=0; i < users.length(); i++) {
+          JSONObject user = users.getJSONObject(i);
+          results.put(user.getString("identifiant"),user.getString("email"));
+        }
+      }
+    } catch (HttpResponseException e) {
+      if (e.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY && canReplay) {
+        //we are redirect on authentication page
+        //session token is no more valid
+        currentSessionToken = null;
+        timeStampCreationSessionToken = 0;
+        return getAllUsers(false);
+      } else {
+        LOG.error("remote_service={} operation={} parameters=\"\", status=ko "
+                      + "duration_ms={} error_msg=\"{}, status : {} \"",
+                  IXBUS_SERVICE_API,
+                  "getAllUsers",
+                  System.currentTimeMillis() - startTime,
+                  e.getReasonPhrase(),
+                  e.getStatusCode(), e);
+      }
+    } catch (IOException e) {
+      LOG.error("Error while trying to get all users", e);
+    }
+    return results;
   }
 
   private JSONObject doGet(String url,String token) throws IOException {
@@ -215,7 +261,7 @@ public class IxbusConnectorService {
           timeStampCreationSessionToken = 0;
           return getUserFoldersCount(username, false);
         } else {
-          LOG.error("remote_service={} operation={} parameters=\"username:{}, status=ko "
+          LOG.error("remote_service={} operation={} parameters=\"username:{}\", status=ko "
                         + "duration_ms={} error_msg=\"{}, status : {} \"",
                     IXBUS_SERVICE_API,
                     "getUserFolderCount",
@@ -263,7 +309,7 @@ public class IxbusConnectorService {
           timeStampCreationSessionToken = 0;
           return getUserFolders(username, false);
         } else {
-          LOG.error("remote_service={} operation={} parameters=\"username:{}, status=ko "
+          LOG.error("remote_service={} operation={} parameters=\"username:{}\", status=ko "
                         + "duration_ms={} error_msg=\"{}, status : {} \"",
                     IXBUS_SERVICE_API,
                     "getUserFolders",
@@ -271,9 +317,11 @@ public class IxbusConnectorService {
                     System.currentTimeMillis() - startTime,
                     e.getReasonPhrase(),
                     e.getStatusCode(), e);
+          return null;
         }
       } catch (IOException e) {
         LOG.error("Error while getting user folders", e);
+        return null;
       }
     }
     return result;
@@ -304,7 +352,7 @@ public class IxbusConnectorService {
           timeStampCreationSessionToken = 0;
           return getUserActionsCount(username, false);
         } else {
-          LOG.error("remote_service={} operation={} parameters=\"username:{}, status=ko "
+          LOG.error("remote_service={} operation={} parameters=\"username:{}\", status=ko "
                         + "duration_ms={} error_msg=\"{}, status : {} \"",
                     IXBUS_SERVICE_API,
                     "getUserActionsCount",
@@ -350,7 +398,7 @@ public class IxbusConnectorService {
           timeStampCreationSessionToken = 0;
           return getUserActions(username, false);
         } else {
-          LOG.error("remote_service={} operation={} parameters=\"username:{}, status=ko "
+          LOG.error("remote_service={} operation={} parameters=\"username:{}\", status=ko "
                         + "duration_ms={} error_msg=\"{}, status : {} \"",
                     IXBUS_SERVICE_API,
                     "getUserActions",
@@ -364,6 +412,49 @@ public class IxbusConnectorService {
       }
     }
     return result;
+  }
+
+  public List<DocumentEntity> getFoldersInStatut(String statut) {
+    return getFoldersInStatut(statut,true);
+  }
+
+  private List<DocumentEntity> getFoldersInStatut(String statut, boolean canReplay) {
+    List<DocumentEntity> result = new ArrayList<>();
+    createSessionToken();
+    long startTime = System.currentTimeMillis();
+    try {
+      JSONObject jsonResponse = doGet(serverUrl + "/api/parapheur/v1/dossier/tous?statut=" + statut, currentSessionToken);
+      if (jsonResponse.has("payload")) {
+        JSONArray folders=jsonResponse.getJSONArray("payload");
+        folders.forEach(folder -> {
+          DocumentEntity document =toDocumentEntity((JSONObject) folder);
+          result.addFirst(document);
+        });
+        LOG.debug("Found {} folders in state {}", result.size(), statut);
+        return result;
+      }
+    } catch (HttpResponseException e) {
+      if (e.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY && canReplay) {
+        //we are redirect on authentication page
+        //session token is no more valid
+        currentSessionToken = null;
+        timeStampCreationSessionToken = 0;
+        return getFoldersInStatut(statut, false);
+      } else {
+        LOG.error("remote_service={} operation={} parameters=\"statut:{}\", status=ko "
+                      + "duration_ms={} error_msg=\"{}, status : {} \"",
+                  IXBUS_SERVICE_API,
+                  "getUserFoldersWithStatut",
+                  statut,
+                  System.currentTimeMillis() - startTime,
+                  e.getReasonPhrase(),
+                  e.getStatusCode(), e);
+      }
+    } catch (IOException e) {
+      LOG.error("Error while getting folders with statut={}",statut, e);
+    }
+    return result;
+    //return generateContent(statut);
   }
 
   private DocumentEntity toDocumentEntity(JSONObject folder) {
@@ -381,7 +472,20 @@ public class IxbusConnectorService {
     document.setReferentFirstName(folder.getJSONObject("referent").getString("prenom"));
     document.setReferentLastName(folder.getJSONObject("referent").getString("nom"));
     document.setNature(folder.getJSONObject("nature").getString("nom"));
+    if (folder.has("etapeEnCours") && !folder.isNull("etapeEnCours")) {
+      JSONObject etape = folder.getJSONObject("etapeEnCours");
+      StepEntity stepEntity = toStepEntity(etape);
+      document.setStepEnAttente(stepEntity);
+    }
     return document;
+  }
+
+  private StepEntity toStepEntity(JSONObject etape) {
+    StepEntity step = new StepEntity();
+    step.setIdentifiant(etape.getString("identifiantCible"));
+    step.setStatut(etape.getString("type"));
+    step.setDateEnAttente(etape.getString("dateEnAttente"));
+    return step;
   }
 
   public SettingsEntity getSettings() {
@@ -389,5 +493,4 @@ public class IxbusConnectorService {
     settings.setCreateUrl(serverUrl+"/parapheur/preparer");
     return settings;
   }
-
 }

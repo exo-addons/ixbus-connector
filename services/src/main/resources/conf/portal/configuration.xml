@@ -33,4 +33,26 @@
   <component>
     <type>org.exoplatform.addons.ixbus.IxBusRestService</type>
   </component>
+
+  <external-component-plugins>
+    <target-component>org.exoplatform.services.scheduler.JobSchedulerService</target-component>
+    <component-plugin profiles="all">
+      <name>AddCronJob</name>
+      <set-method>addCronJob</set-method>
+      <type>org.exoplatform.services.scheduler.CronJob</type>
+      <description>IxBus Notification Job</description>
+      <init-params>
+        <properties-param>
+          <name>cronjob.info</name>
+          <description>Configuration for queue messages processing</description>
+          <property name="jobName" value="IxbusNotificationsJob"/>
+          <property name="groupName" value="ixbus"/>
+          <property name="job" value="org.exoplatform.addons.ixbus.IxbusNotificationsJob"/>
+          <property name="expression" value="${exo.ixbus.notificationJob.expression:0 0 * * * ?}"/>
+          <!-- Runs every 5 minutes -->
+        </properties-param>
+      </init-params>
+    </component-plugin>
+  </external-component-plugins>
+
 </configuration>
