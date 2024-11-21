@@ -15,6 +15,7 @@ Availables properties are :
 
 - exo.ixbus.api.url : Url of the Ixbus Server
 - exo.ixbus.api.key : Api Key of the service user which will make API call. It must be an admin user. To get the API Key, to into the user profile.
+- exo.ixbus.permissions : permission to display the button in topbar. Default value : *:/platform/users
 
 
 ## Notifications : 

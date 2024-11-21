@@ -25,7 +25,7 @@
             <field name="permissions">
               <collection type="java.util.ArrayList">
                 <value>
-                  <string>*:/platform/users</string>
+                  <string>${exo.ixbus.permissions:*:/platform/users}</string>
                 </value>
               </collection>
             </field>
