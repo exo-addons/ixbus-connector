@@ -38,6 +38,14 @@
         <scope>import</scope>
       </dependency>
 
+      <dependency>
+        <groupId>io.meeds.pwa</groupId>
+        <artifactId>pwa</artifactId>
+        <version>${addon.exo.social.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
       <!-- Current project artifacts -->
 
       <dependency>
