@@ -5,11 +5,11 @@
   <parent>
     <artifactId>addons-exo-parent-pom</artifactId>
     <groupId>org.exoplatform.addons</groupId>
-    <version>18-M06.1</version>
+    <version>17</version>
   </parent>
   <groupId>org.exoplatform.addons.ixbus</groupId>
   <artifactId>ixbus-connector-parent</artifactId>
-  <version>7.0.x-SNAPSHOT</version>
+  <version>1.0.x-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>eXo IxBus Connector - Parent POM</name>
   <modules>
@@ -25,13 +25,13 @@
   </scm>
   <properties>
     <!-- 3rd party libraries versions -->
-    <addon.exo.social.version>7.0.x-exo-SNAPSHOT</addon.exo.social.version>
+    <addon.exo.social.version>6.5.x-exo-SNAPSHOT</addon.exo.social.version>
 
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.meeds.social</groupId>
+        <groupId>org.exoplatform.social</groupId>
         <artifactId>social</artifactId>
         <version>${addon.exo.social.version}</version>
         <type>pom</type>

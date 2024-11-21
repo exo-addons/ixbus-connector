@@ -14,7 +14,7 @@
       right
       color="var(--allPagesBadgePrimaryColor, #d32a2a)"
       overlap>
-      <v-icon size="22">fa-file-contract</v-icon>
+      <v-icon size="22" class="icon-default-color">fa-file-contract</v-icon>
     </v-badge>
   </v-btn>
 </template>

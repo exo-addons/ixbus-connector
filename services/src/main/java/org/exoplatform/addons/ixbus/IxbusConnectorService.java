@@ -1,8 +1,5 @@
 package org.exoplatform.addons.ixbus;
 
-import org.apache.ecs.Document;
-import org.apache.ecs.wml.Do;
-import org.apache.ecs.wml.Template;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpStatus;
 import org.apache.http.ProtocolException;
@@ -20,7 +17,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.client.HttpClient;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.eclipse.jetty.util.ajax.JSON;
 import org.exoplatform.addons.ixbus.entity.DocumentEntity;
 import org.exoplatform.addons.ixbus.entity.SettingsEntity;
 import org.exoplatform.addons.ixbus.entity.StepEntity;
@@ -33,11 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -295,7 +286,7 @@ public class IxbusConnectorService {
             if (!((JSONObject)folder).getString("statut").equals("Annule") && !((JSONObject)folder).getString("statut").equals("Cloture")) {
               DocumentEntity document =toDocumentEntity((JSONObject) folder);
               document.setTargetUrl(serverUrl+"/parapheur/suivi");
-              result.addFirst(document);
+              result.add(0,document);
             }
           });
           LOG.debug("Found {} folders that {} own", result.size(), username);
@@ -385,7 +376,7 @@ public class IxbusConnectorService {
           folders.forEach(folder -> {
             DocumentEntity document =toDocumentEntity((JSONObject) folder);
             document.setTargetUrl(serverUrl+"/parapheur/signer");
-            result.addFirst(document);
+            result.add(0,document);
           });
           LOG.debug("Found {} folders that {} must do", result.size(), username);
           return result;
@@ -429,7 +420,7 @@ public class IxbusConnectorService {
         folders.forEach(folder -> {
           DocumentEntity document =toDocumentEntity((JSONObject) folder);
           document.setTargetUrl(serverUrl+"/parapheur/signer");
-          result.addFirst(document);
+          result.add(0,document);
         });
         LOG.debug("Found {} folders in state {}", result.size(), statut);
         return result;
@@ -455,7 +446,6 @@ public class IxbusConnectorService {
       LOG.error("Error while getting folders with statut={}",statut, e);
     }
     return result;
-    //return generateContent(statut);
   }
 
   private DocumentEntity toDocumentEntity(JSONObject folder) {

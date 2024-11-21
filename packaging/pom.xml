@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.exoplatform.addons.ixbus</groupId>
     <artifactId>ixbus-connector-parent</artifactId>
-    <version>7.0.x-SNAPSHOT</version>
+    <version>1.0.x-SNAPSHOT</version>
   </parent>
 
   <artifactId>ixbus-connector-packaging</artifactId>

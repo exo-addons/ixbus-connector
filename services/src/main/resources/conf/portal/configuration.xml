@@ -33,9 +33,6 @@
   <component>
     <type>org.exoplatform.addons.ixbus.IxBusRestService</type>
   </component>
-  <component>
-    <type>org.exoplatform.addons.ixbus.notification.IxbusPwaNotificationPlugin</type>
-  </component>
 
   <external-component-plugins>
     <target-component>org.exoplatform.services.scheduler.JobSchedulerService</target-component>

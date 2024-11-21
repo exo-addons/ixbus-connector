@@ -6,21 +6,15 @@
   <parent>
     <groupId>org.exoplatform.addons.ixbus</groupId>
     <artifactId>ixbus-connector-parent</artifactId>
-    <version>7.0.x-SNAPSHOT</version>
+    <version>1.0.x-SNAPSHOT</version>
   </parent>
   <name>Ixbus Connector - Services</name>
 
   <artifactId>ixbus-connector-services</artifactId>
   <dependencies>
     <dependency>
-      <groupId>io.meeds.social</groupId>
+      <groupId>org.exoplatform.social</groupId>
       <artifactId>social-component-notification</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.meeds.pwa</groupId>
-      <artifactId>pwa-plugin</artifactId>
-      <version>7.0.x-whitepaper-SNAPSHOT</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
   <build>

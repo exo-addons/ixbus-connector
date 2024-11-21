@@ -52,8 +52,10 @@ public class IxbusNotificationsJob  implements Job {
     SettingValue lastExecutionSetting = settingService.get(Context.GLOBAL, Scope.APPLICATION, IXBUS_NOTIFICATION_LAST_EXECUTION);
     Instant lastExecutionInstant;
     if (lastExecutionSetting != null) {
-      lastExecutionInstant = Instant.ofEpochMilli(Long.parseLong(lastExecutionSetting.getValue().toString()));
-      
+      //lastExecutionInstant = Instant.ofEpochMilli(Long.parseLong(lastExecutionSetting.getValue().toString()));
+
+      lastExecutionInstant = Instant.ofEpochMilli(Long.parseLong(lastExecutionSetting.getValue().toString())).minus(7, ChronoUnit.DAYS);
+
       LOG.debug("Execute Ixbus Notification Job, lastExecution was {}",lastExecutionInstant);
 
       long nowExecution = System.currentTimeMillis();
