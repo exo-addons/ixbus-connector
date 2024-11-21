@@ -475,7 +475,9 @@ public class IxbusConnectorService {
     StepEntity step = new StepEntity();
     step.setIdentifiant(etape.getString("identifiantCible"));
     step.setStatut(etape.getString("type"));
-    step.setDateEnAttente(etape.getString("dateEnAttente"));
+    if (etape.has("dateEnAttente") && !etape.isNull("dateEnAttente")) {
+      step.setDateEnAttente(etape.getString("dateEnAttente"));
+    }
     return step;
   }
 
