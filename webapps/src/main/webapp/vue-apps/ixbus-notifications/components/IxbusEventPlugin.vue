@@ -3,7 +3,7 @@
     :notification="notification"
     :message="message"
     :loading="loading"
-    url="#">
+    url="javascript:if(document.getElementById('ixBusTopBarButton')) document.getElementById('ixBusTopBarButton').click();">
     <template #avatar>
       <div>
         <v-icon size="36">fa-file-contract</v-icon>

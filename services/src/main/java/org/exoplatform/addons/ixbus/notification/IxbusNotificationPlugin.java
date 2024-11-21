@@ -5,8 +5,6 @@ import org.exoplatform.commons.api.notification.model.ArgumentLiteral;
 import org.exoplatform.commons.api.notification.model.NotificationInfo;
 import org.exoplatform.commons.api.notification.plugin.BaseNotificationPlugin;
 import org.exoplatform.container.xml.InitParams;
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.log.Log;
 
 public class IxbusNotificationPlugin extends BaseNotificationPlugin {
 
@@ -14,8 +12,10 @@ public class IxbusNotificationPlugin extends BaseNotificationPlugin {
   public static final ArgumentLiteral<String> STATUS = new ArgumentLiteral<>(String.class,"ixbusStatus");
   public static final ArgumentLiteral<String> NATURE = new ArgumentLiteral<>(String.class,"ixbusNature");
   public static final ArgumentLiteral<String> RECIPIENT = new ArgumentLiteral<>(String.class,"ixBusRecipient");
+  public static final ArgumentLiteral<String> TARGET_URL = new ArgumentLiteral<>(String.class,"ixBusTargetUrl");
 
-  public static String                ID="IxbusNotificationPlugin";
+  public static final String                ID="IxbusNotificationPlugin";
+
 
   public IxbusNotificationPlugin(InitParams initParams) {
     super(initParams);
@@ -38,11 +38,13 @@ public class IxbusNotificationPlugin extends BaseNotificationPlugin {
     String documentName = ctx.value(DOCUMENT_NAME);
     String status = ctx.value(STATUS);
     String nature = ctx.value(NATURE);
+    String targetUrl = ctx.value(TARGET_URL);
     return NotificationInfo.instance()
                     .key(getId())
                     .with("documentName", documentName)
                     .with("status", status)
                     .with("nature", nature)
+                    .with("targetUrl", targetUrl)
                     .to(recipient);
   }
 

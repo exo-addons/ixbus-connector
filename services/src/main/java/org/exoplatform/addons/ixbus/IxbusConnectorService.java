@@ -428,6 +428,7 @@ public class IxbusConnectorService {
         JSONArray folders=jsonResponse.getJSONArray("payload");
         folders.forEach(folder -> {
           DocumentEntity document =toDocumentEntity((JSONObject) folder);
+          document.setTargetUrl(serverUrl+"/parapheur/signer");
           result.addFirst(document);
         });
         LOG.debug("Found {} folders in state {}", result.size(), statut);

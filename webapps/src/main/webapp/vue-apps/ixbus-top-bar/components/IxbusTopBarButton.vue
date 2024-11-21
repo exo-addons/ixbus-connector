@@ -3,6 +3,7 @@
     :title="$t('IxbusPortlet.label.iconTooltip')"
     :aria-label="$t('IxbusPortlet.label.iconTooltip')"
     class="ixbusTopBarBadge"
+    id="ixBusTopBarButton"
     icon
     @click="$root.$emit('open-ixbus-drawer')">
     <v-badge

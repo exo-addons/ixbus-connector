@@ -27,7 +27,3 @@ Availables properties are :
 ## Possible improvments :
 - Currently, we use email as a pivot between eXo user and Ixbus users because the addon is used in context where the mail cannot be change by users. In case this addon is used in a different context, where users can change his email, we could make the pivot as username by default (require that username in Ixbus are the same as username in eXo), and possible to change to use email with a property
 
-
-## Todo
-Mail Channel
-dans la notif web : ouvrir le drawer

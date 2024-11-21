@@ -53,6 +53,7 @@ public class IxbusNotificationsJob  implements Job {
     Instant lastExecutionInstant;
     if (lastExecutionSetting != null) {
       lastExecutionInstant = Instant.ofEpochMilli(Long.parseLong(lastExecutionSetting.getValue().toString()));
+      
       LOG.debug("Execute Ixbus Notification Job, lastExecution was {}",lastExecutionInstant);
 
       long nowExecution = System.currentTimeMillis();
@@ -82,6 +83,7 @@ public class IxbusNotificationsJob  implements Job {
               ctx.append(IxbusNotificationPlugin.DOCUMENT_NAME, documentEntity.getName());
               ctx.append(IxbusNotificationPlugin.STATUS, documentEntity.getStatus());
               ctx.append(IxbusNotificationPlugin.NATURE, documentEntity.getNature());
+              ctx.append(IxbusNotificationPlugin.TARGET_URL, documentEntity.getTargetUrl());
               ctx.getNotificationExecutor()
                  .with(ctx.makeCommand(PluginKey.key(IxbusNotificationPlugin.ID)))
                  .execute(ctx);
