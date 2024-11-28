@@ -25,23 +25,16 @@
   </scm>
   <properties>
     <!-- 3rd party libraries versions -->
-    <addon.exo.social.version>7.0.x-exo-SNAPSHOT</addon.exo.social.version>
+    <addon.meeds.pwa.version>7.0.x-exo-SNAPSHOT</addon.meeds.pwa.version>
 
   </properties>
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>io.meeds.social</groupId>
-        <artifactId>social</artifactId>
-        <version>${addon.exo.social.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
 
       <dependency>
         <groupId>io.meeds.pwa</groupId>
         <artifactId>pwa</artifactId>
-        <version>${addon.exo.social.version}</version>
+        <version>${addon.meeds.pwa.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
