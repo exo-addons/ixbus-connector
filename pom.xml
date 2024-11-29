@@ -25,7 +25,7 @@
   </scm>
   <properties>
     <!-- 3rd party libraries versions -->
-    <addon.exo.social.version>6.5.x-exo-SNAPSHOT</addon.exo.social.version>
+    <addon.exo.social.version>6.5.4-exo</addon.exo.social.version>
 
   </properties>
   <dependencyManagement>
